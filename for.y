@@ -1,78 +1,98 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+int yyerror();
+int yylex();
 extern FILE *yyin;
 extern FILE *yyout;
 %}
 
 
-%token ID NUM FOR LE GE EQ NE OR AND  CON BREAK 
+%token ID NUM FOR LE GE EQ NE OR AND CONTINUE BREAK RETURN DATATYPE
 %right '='
 %left  OR AND
-%left  LE GE EQ NE '>' '<'
+%left  LE GE EQ NE LT GT
 %left '+' '-'
 %left '*' '/'
 %left '!' '%'
+%left TRUE FALSE
 
 
 %%
    
-S           : ST {printf("Accepted \n"); exit(0);}
+S           : FOR_STMNT {printf("Accepted \n"); return 0;}
 
-ST          : FOR '(' E ';' E2 ';' E ')' DEF
-            | FOR '(' ';'  ';' ')' DEF
-            | FOR '(' E ';'  ';' ')' DEF
-            | FOR '(' ';'E2  ';' ')' DEF
-            | FOR '(' ';'  ';' E ')' DEF
+FOR_STMNT       : FOR '(' EXPR_LIST ';' CONDITIONAL_EXPR ';' EXPR_LIST ')' BODY
             ;
-            
+                       
+BODY  	   :  '{' BODY '}'
+           |  STMNT_LIST
+           ;
 
-DEF    	   :'{' '}'
-           | '{' BODY '}'
-           | E ';'
-           | ST
-           | ID ID ';'
-           |';'
-           ;
-           
-BODY  	   : BODY ST
-           | BODY E  ';'     
-           | ST
-           | E ';'
-           | BREAK ';'
-           | CON ';'   
-           | ID ID ';'
-           |';'   
-           | BODY BREAK ';'
-           | BODY CON ';'   
-           ;
-       
-E         : ID '=' E
-          |ID ID '=' E
-          | E '+' E
-          | E '-' E 
-          | E '*' E 
-          | E '/' E 
-          | E '+' '+' 
-          | E '-' '-' 
-          | '+' '+' E 
-          | '-' '-' E 
-          | E '%' E 
+STMNT_LIST : STMNT_LIST ';' STMNT
+            |  STMNT
+            ;
+
+STMNT : BREAK
+    |   CONTINUE
+    |   RETURN
+    |   EXPR_LIST ';'
+    |   DECL
+    ;
+
+EXPR      : ID '=' EXPR
+          | EXPR '+' EXPR
+          | EXPR '-' EXPR 
+          | EXPR '*' EXPR 
+          | EXPR '/' EXPR 
+        //   | EXPR '&' EXPR 
+        //   | EXPR '|' EXPR 
+        //   | EXPR '~' EXPR 
+        //   | EXPR '^' EXPR 
+        //   | ID '+' '+' 
+        //   | ID '-' '-' 
+        //   | '+' '+' ID 
+        //   | '-' '-' ID 
+          | EXPR '%' EXPR 
           | ID 
-          | E2
+        //   | E2
+          |
           ;
 
+EXPR_LIST : EXPR_LIST ',' EXPR
+            | EXPR
+            ;
+
+VAR_LIST : VAR_LIST ',' VAR
+            |   VAR
+            ;
+
+VAR :  ID '=' EXPR
+        |   ID
+        ;
+
+DECL        : DATATYPE VAR_LIST ';'
+            ;
    
-E2       : E'<'E
-         | E'>'E
-         | E LE E
-         | E GE E
-         | E EQ E
-         | E NE E
-         | E OR E
-         | E AND E
-         |NUM
-         ;   
+CONDITIONAL_EXPR : 
+            // EXPR LT EXPR
+            // | EXPR GT EXPR
+            ;
+
+// E2       : 
+        // |EXPR LT EXPR
+//          | EXPR GT EXPR
+//          | EXPR LE EXPR
+//          | EXPR GE EXPR
+//          | EXPR EQ EXPR
+//          | EXPR NE EXPR
+//          | EXPR OR EXPR
+//          | EXPR AND EXPR
+//          | NUM
+//          | TRUE
+//          | FALSE
+        //  |
+        //  ;   
 %%
 
 

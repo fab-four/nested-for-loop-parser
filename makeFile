@@ -1,0 +1,5 @@
+build: for.l for.y
+	bison -yvd for.y
+	flex for.l
+	gcc lex.yy.c y.tab.c
+	# ./a.exe index.cpp
