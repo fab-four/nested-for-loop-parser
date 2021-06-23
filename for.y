@@ -1,20 +1,20 @@
 %{
-#include <stdio.h>
-#include <stdlib.h>
-extern FILE *yyin;
-int yyerror();
-int yylex();
+    #include <stdio.h>
+    #include <stdlib.h>
+    extern FILE *yyin;
+    int yyerror();
+    int yylex();
 %}
 
 
 %token    ID INT FOR RELATIONAL_OP OR AND CONTINUE BREAK RETURN DATATYPE TRUE FALSE PLUS_PLUS MINUS_MINUS STRING FLOAT COMPOUND_OP
 %right    COMPOUND_OP
 %right    '='
-%left     OR 
+%left     OR
 %left     AND
-%left     '|' 
+%left     '|'
 %left     '^'
-%left     '&' 
+%left     '&'
 %left     RELATIONAL_OP
 %left     LEFT_SHIFT RIGHT_SHIFT
 %left     '+' '-'
@@ -24,13 +24,13 @@ int yylex();
 
 
 %%
-   
+
 S           :  FOR_STMNT {printf("Valid Syntax\n"); return 0;}
 
-FOR_STMNT   :  FOR  '(' EXPR_LIST ';' EXPR_LIST ';' EXPR_LIST ')' BODY 
+FOR_STMNT   :  FOR  '(' EXPR_LIST ';' EXPR_LIST ';' EXPR_LIST ')' BODY
             ;
-                       
-BODY        :  '{' BODY '}' 
+
+BODY        :  '{' BODY '}'
             |  STMNT_LIST
             |
             ;
@@ -48,27 +48,27 @@ STMNT       : BREAK
 
 ASSIGN      : ID '=' EXPR
             | ID COMPOUND_OP EXPR
-            | ID 
+            | ID
             ;
 
 EXPR        : EXPR '+' EXPR
-            | EXPR '-' EXPR 
-            | EXPR '*' EXPR 
-            | EXPR '/' EXPR 
-            | EXPR '%' EXPR 
-            | EXPR '&' EXPR 
-            | EXPR '|' EXPR 
-            | EXPR '~' EXPR 
-            | EXPR '^' EXPR 
-            | EXPR LEFT_SHIFT EXPR 
-            | EXPR RIGHT_SHIFT EXPR 
+            | EXPR '-' EXPR
+            | EXPR '*' EXPR
+            | EXPR '/' EXPR
+            | EXPR '%' EXPR
+            | EXPR '&' EXPR
+            | EXPR '|' EXPR
+            | EXPR '~' EXPR
+            | EXPR '^' EXPR
+            | EXPR LEFT_SHIFT EXPR
+            | EXPR RIGHT_SHIFT EXPR
             | EXPR RELATIONAL_OP EXPR
             | EXPR OR EXPR
             | EXPR AND EXPR
             | ID PLUS_PLUS
             | ID MINUS_MINUS
-            | PLUS_PLUS ID 
-            | MINUS_MINUS ID 
+            | PLUS_PLUS ID
+            | MINUS_MINUS ID
             | '-' EXPR %prec UMINUS
             | '(' EXPR ')'
             | '!' EXPR
@@ -87,7 +87,7 @@ EXPR_LIST   : EXPR_LIST ',' EXPR
 
 
 INIT        : ID '=' EXPR
-            | ID 
+            | ID
             ;
 
 VAR_LIST    : VAR_LIST ',' INIT
@@ -96,7 +96,7 @@ VAR_LIST    : VAR_LIST ',' INIT
 
 DECL        : DATATYPE VAR_LIST ';'
             ;
-   
+
 %%
 
 
@@ -114,4 +114,4 @@ int main(int argc,char **argv) {
     yyin = fopen(argv[argc-1],"r");
     yyparse();
     return 0;
-} 
+}

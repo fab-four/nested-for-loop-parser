@@ -1,5 +1,5 @@
 %{
-    #include <stdio.h> 
+    #include <stdio.h>
     #include "y.tab.h"
     int yyerror(const char*);
 %}
@@ -34,7 +34,7 @@ false                                        return FALSE;
 \+?[0-9]+\.[0-9]+                            return FLOAT;
 {digit}+("++"|"--")|("++"|"--"){digit}+      yyerror("lvalue is required as operand");
 [\t\n\ ]                                     ;
-.                                            return *yytext; 
+.                                            return *yytext;
 
 %%
 
