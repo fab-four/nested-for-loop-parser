@@ -7,27 +7,27 @@
 %}
 
 
-%token    ID INT FOR RELATIONAL_OP OR AND CONTINUE BREAK RETURN DATATYPE TRUE FALSE PLUS_PLUS MINUS_MINUS STRING FLOAT COMPOUND_OP
-%right    COMPOUND_OP
-%right    '='
-%left     OR
-%left     AND
-%left     '|'
-%left     '^'
-%left     '&'
-%left     RELATIONAL_OP
-%left     LEFT_SHIFT RIGHT_SHIFT
-%left     '+' '-'
-%left     '*' '/' '%'
-%left     '!' '~'
-%nonassoc UMINUS
+%token    ID INT FOR RELATIONAL_OP OR AND CONTINUE BREAK RETURN DATATYPE TRUE FALSE PLUS_PLUS MINUS_MINUS STRING FLOAT COMPOUND_OP RIGHT_SHIFT LEFT_SHIFT
+/* %right    COMPOUND_OP */
+/* %right    '=' */
+/* %left     OR */
+/* %left     AND */
+/* %left     '|' */
+/* %left     '^' */
+/* %left     '&' */
+/* %left     RELATIONAL_OP */
+/* %left     LEFT_SHIFT RIGHT_SHIFT */
+/* %left     '+' '-' */
+/* %left     '*' '/' '%' */
+/* %left     '!' '~' */
 
 
 %%
 
-S           :  FOR_STMNT {printf("Valid Syntax\n"); return 0;}
+start       :  FOR_STMNT {printf("Valid Syntax\n"); return 0;}
 
-FOR_STMNT   :  FOR  '(' EXPR_LIST ';' EXPR_LIST ';' EXPR_LIST ')' BODY
+FOR_STMNT   :  FOR  '(' STMNT STMNT EXPR_LIST ')' BODY
+            |  FOR  '(' STMNT STMNT ')' BODY
             ;
 
 BODY        :  '{' BODY '}'
@@ -35,20 +35,22 @@ BODY        :  '{' BODY '}'
             |
             ;
 
-STMNT_LIST  : STMNT_LIST ';' STMNT
+STMNT_LIST  : STMNT_LIST STMNT
             |  STMNT
             ;
 
-STMNT       : BREAK
-            |   CONTINUE
-            |   RETURN
-            |   EXPR_LIST ';'
-            |   DECL
+STMNT       : BREAK ';'
+            | CONTINUE ';'
+            | RETURN ';'
+            | RETURN EXPR ';'
+            | EXPR_LIST ';'
+            | DECL ';'
+            | FOR_STMNT
+            | ';'
             ;
 
 ASSIGN      : ID '=' EXPR
             | ID COMPOUND_OP EXPR
-            | ID
             ;
 
 EXPR        : EXPR '+' EXPR
@@ -69,7 +71,7 @@ EXPR        : EXPR '+' EXPR
             | ID MINUS_MINUS
             | PLUS_PLUS ID
             | MINUS_MINUS ID
-            | '-' EXPR %prec UMINUS
+            | '-' EXPR
             | '(' EXPR ')'
             | '!' EXPR
             | INT
@@ -77,6 +79,7 @@ EXPR        : EXPR '+' EXPR
             | TRUE
             | FALSE
             | STRING
+            | ID
             ;
 
 EXPR_LIST   : EXPR_LIST ',' EXPR
@@ -84,7 +87,6 @@ EXPR_LIST   : EXPR_LIST ',' EXPR
             | EXPR_LIST ',' ASSIGN
             | ASSIGN
             ;
-
 
 INIT        : ID '=' EXPR
             | ID
@@ -94,14 +96,14 @@ VAR_LIST    : VAR_LIST ',' INIT
             | INIT
             ;
 
-DECL        : DATATYPE VAR_LIST ';'
+DECL        : DATATYPE VAR_LIST
             ;
 
 %%
 
 
 int yyerror(char const *s) {
-    printf("%s\n",s);
+    printf("%s\n", s);
     return 1;
 }
 
@@ -110,8 +112,11 @@ int main(int argc,char **argv) {
         printf("File name not given as command line argument\n");
         return 1;
     }
-    printf("File found\n");
-    yyin = fopen(argv[argc-1],"r");
+    #ifdef YYDEBUG
+        yydebug = 1;
+    #endif
+    printf("File found: %s\n", argv[argc - 1]);
+    yyin = fopen(argv[argc - 1], "r");
     yyparse();
     return 0;
 }
