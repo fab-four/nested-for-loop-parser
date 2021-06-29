@@ -8,18 +8,18 @@
 
 
 %token    ID INT FOR RELATIONAL_OP OR AND CONTINUE BREAK RETURN DATATYPE TRUE FALSE PLUS_PLUS MINUS_MINUS STRING FLOAT COMPOUND_OP RIGHT_SHIFT LEFT_SHIFT
-/* %right    COMPOUND_OP */
-/* %right    '=' */
-/* %left     OR */
-/* %left     AND */
-/* %left     '|' */
-/* %left     '^' */
-/* %left     '&' */
-/* %left     RELATIONAL_OP */
-/* %left     LEFT_SHIFT RIGHT_SHIFT */
-/* %left     '+' '-' */
-/* %left     '*' '/' '%' */
-/* %left     '!' '~' */
+%right    COMPOUND_OP
+%right    '='
+%left     OR
+%left     AND
+%left     '|'
+%left     '^'
+%left     '&'
+%left     RELATIONAL_OP
+%left     LEFT_SHIFT RIGHT_SHIFT
+%left     '+' '-'
+%left     '*' '/' '%'
+%left     '!' '~'
 
 
 %%
