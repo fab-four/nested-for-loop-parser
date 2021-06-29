@@ -45,7 +45,6 @@ STMNT       : BREAK ';'
             | RETURN EXPR ';'
             | EXPR_LIST ';'
             | DECL ';'
-            | FOR_STMNT
             | ';'
             ;
 
