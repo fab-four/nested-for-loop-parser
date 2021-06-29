@@ -26,14 +26,17 @@
 
 start       :  FOR_STMNT {printf("Valid Syntax\n"); return 0;}
 
-FOR_STMNT   :  FOR  '(' STMNT STMNT EXPR_LIST ')' BODY
-            |  FOR  '(' STMNT STMNT ')' BODY
+FOR_STMNT   :  FOR  '(' STMNT STMNT EXPR_LIST ')' STMNT
+            |  FOR  '(' STMNT STMNT ')' STMNT
             ;
 
-BODY        :  '{' BODY '}'
-            |  STMNT_LIST
-            |
+COMPOUND_STMNT :  '{' STMNT_LIST  '}'
+               | '{' '}'
             ;
+
+EXPR_STMNT : EXPR_LIST ';'
+           | ';'
+           ;
 
 STMNT_LIST  : STMNT_LIST STMNT
             |  STMNT
@@ -45,7 +48,9 @@ STMNT       : BREAK ';'
             | RETURN EXPR ';'
             | EXPR_LIST ';'
             | DECL ';'
-            | ';'
+            | FOR_STMNT
+            | COMPOUND_STMNT
+            | EXPR_STMNT
             ;
 
 ASSIGN      : ID '=' EXPR
