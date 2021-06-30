@@ -5,7 +5,7 @@
 
     /*
         INPUT   : A filename (specified as a command-line argument to the executable)
-        
+
         PROCESS : The lexer ignores all whitespace, single-line and multi-line comments, and all C++ keywords except
                 "for", "continue", "break", "return", "true", "false" and those that have been used to return the token DATATYPE.
 
@@ -16,7 +16,7 @@
                 For relational operators, ">", "<", "<=", etc., RELATIONAL_OP is returned.
                 For compound operators, "+=", "-=", "/=", "*=", etc. COMPOUND_OP is returned.
                 For operators, "||", "&&", "<<", ">>", "++" and "--", tokens OR, AND, LEFT_SHIFT, RIGHT_SHIFT, PLUS_PLUS and MINUS_MINUS, are returned respectively.
-                If the operand of a post- or pre-increment and decrement operator is an interger literal, 
+                If the operand of a post- or pre-increment and decrement operator is an interger literal,
                 yyerror() is called to print the error message and terminate.
                 Every other character is passed as is to the parser.
 
