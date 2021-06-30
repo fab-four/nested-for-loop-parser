@@ -15,6 +15,7 @@ for                                                   return FOR;
 continue                                              return CONTINUE;
 break                                                 return BREAK;
 return                                                return RETURN;
+goto                                                  return GOTO;
 true                                                  return TRUE;
 false                                                 return FALSE;
 ("0b"|"0x"|"0B"|"0X")?{digit}+                         return INT;
