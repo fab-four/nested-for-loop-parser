@@ -7,7 +7,7 @@
 %}
 
 
-%token    ID INT FOR RELATIONAL_OP OR AND CONTINUE BREAK RETURN DATATYPE TRUE FALSE PLUS_PLUS MINUS_MINUS STRING FLOAT COMPOUND_OP RIGHT_SHIFT LEFT_SHIFT GOTO
+%token    ID INT FOR RELATIONAL_OP OR AND CONTINUE BREAK RETURN DATATYPE TRUE FALSE PLUS_PLUS MINUS_MINUS STRING FLOAT COMPOUND_OP RIGHT_SHIFT LEFT_SHIFT
 %right    COMPOUND_OP
 %right    '='
 %left     OR
@@ -41,7 +41,7 @@ STMNT          : DECL ';'
                | JUMP_STMNT
                ;
 
-COMPOUND_STMNT : '{' STMNT_LIST  '}'
+COMPOUND_STMNT : '{' STMNT_LIST '}'
                | '{' '}'
                ;
 
@@ -53,7 +53,6 @@ JUMP_STMNT     : BREAK ';'
                | CONTINUE ';'
                | RETURN ';'
                | RETURN EXPR ';'
-               | GOTO ID ';'
                ;
 
 ASSIGN         : ID '=' EXPR
