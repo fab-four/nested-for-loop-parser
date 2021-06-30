@@ -24,85 +24,85 @@
 
 %%
 
-start          :  FOR_STMNT {printf("Valid Syntax\n"); return 0;}
+start          :  STMNT_LIST {printf("Valid Syntax\n"); return 0;}
 
 FOR_STMNT      :  FOR  '(' STMNT STMNT EXPR_LIST ')' STMNT
                |  FOR  '(' STMNT STMNT ')' STMNT
                ;
 
-STMNT_LIST     : STMNT_LIST STMNT
+STMNT_LIST     :  STMNT_LIST STMNT
                |  STMNT
                ;
 
-STMNT          : DECL ';'
-               | FOR_STMNT
-               | EXPR_STMNT
-               | COMPOUND_STMNT
-               | JUMP_STMNT
+STMNT          :  DECL ';'
+               |  FOR_STMNT
+               |  EXPR_STMNT
+               |  COMPOUND_STMNT
+               |  JUMP_STMNT
                ;
 
-COMPOUND_STMNT : '{' STMNT_LIST '}'
-               | '{' '}'
+COMPOUND_STMNT :  '{' STMNT_LIST '}'
+               |  '{' '}'
                ;
 
-EXPR_STMNT     : EXPR_LIST ';'
-               | ';'
+EXPR_STMNT     :  EXPR_LIST ';'
+               |  ';'
                ;
 
-JUMP_STMNT     : BREAK ';'
-               | CONTINUE ';'
-               | RETURN ';'
-               | RETURN EXPR ';'
+JUMP_STMNT     :  BREAK ';'
+               |  CONTINUE ';'
+               |  RETURN ';'
+               |  RETURN EXPR ';'
                ;
 
-ASSIGN         : ID '=' EXPR
-               | ID COMPOUND_OP EXPR
+ASSIGN         :  ID '=' EXPR
+               |  ID COMPOUND_OP EXPR
                ;
 
-EXPR           : EXPR '+' EXPR
-               | EXPR '-' EXPR
-               | EXPR '*' EXPR
-               | EXPR '/' EXPR
-               | EXPR '%' EXPR
-               | EXPR '&' EXPR
-               | EXPR '|' EXPR
-               | EXPR '~' EXPR
-               | EXPR '^' EXPR
-               | EXPR LEFT_SHIFT EXPR
-               | EXPR RIGHT_SHIFT EXPR
-               | EXPR RELATIONAL_OP EXPR
-               | EXPR OR EXPR
-               | EXPR AND EXPR
-               | ID PLUS_PLUS
-               | ID MINUS_MINUS
-               | PLUS_PLUS ID
-               | MINUS_MINUS ID
-               | '-' EXPR
-               | '(' EXPR ')'
-               | '!' EXPR
-               | INT
-               | FLOAT
-               | TRUE
-               | FALSE
-               | STRING
-               | ID
+EXPR           :  EXPR '+' EXPR
+               |  EXPR '-' EXPR
+               |  EXPR '*' EXPR
+               |  EXPR '/' EXPR
+               |  EXPR '%' EXPR
+               |  EXPR '&' EXPR
+               |  EXPR '|' EXPR
+               |  EXPR '~' EXPR
+               |  EXPR '^' EXPR
+               |  EXPR LEFT_SHIFT EXPR
+               |  EXPR RIGHT_SHIFT EXPR
+               |  EXPR RELATIONAL_OP EXPR
+               |  EXPR OR EXPR
+               |  EXPR AND EXPR
+               |  ID PLUS_PLUS
+               |  ID MINUS_MINUS
+               |  PLUS_PLUS ID
+               |  MINUS_MINUS ID
+               |  '-' EXPR
+               |  '(' EXPR ')'
+               |  '!' EXPR
+               |  INT
+               |  FLOAT
+               |  TRUE
+               |  FALSE
+               |  STRING
+               |  ID
                ;
 
-EXPR_LIST      : EXPR_LIST ',' EXPR
-               | EXPR
-               | EXPR_LIST ',' ASSIGN
-               | ASSIGN
+EXPR_LIST      :  EXPR_LIST ',' EXPR
+               |  EXPR
+               |  EXPR_LIST ',' ASSIGN
+               |  ASSIGN
                ;
 
-INIT           : ID '=' EXPR
-               | ID
+INIT           :  ID '=' EXPR
+               |  ID
                ;
 
-VAR_LIST       : VAR_LIST ',' INIT
-               | INIT
+VAR_LIST       :  VAR_LIST ',' INIT
+               |  INIT
                ;
 
-DECL           : DATATYPE VAR_LIST
+DECL           :  DATATYPE VAR_LIST
                ;
 
 %%
@@ -118,9 +118,6 @@ int main(int argc,char **argv) {
         printf("File name not given as command line argument\n");
         return 1;
     }
-    #ifdef YYDEBUG
-        yydebug = 1;
-    #endif
     printf("File found: %s\n", argv[argc - 1]);
     yyin = fopen(argv[argc - 1], "r");
     yyparse();

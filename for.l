@@ -17,7 +17,7 @@ break                                                 return BREAK;
 return                                                return RETURN;
 true                                                  return TRUE;
 false                                                 return FALSE;
-("0b"|"0x"|"0B"|"0X")?{digit}+                         return INT;
+("0b"|"0x"|"0B"|"0X")?{digit}+                        return INT;
 {alphabet}({alphabet}|{digit})*                       return ID;
 \"((\\\")|[^"])*\"                                    return STRING;
 (">"|"<"|"<="|">="|"=="|"!=")                         return RELATIONAL_OP;
