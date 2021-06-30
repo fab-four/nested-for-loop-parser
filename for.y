@@ -24,17 +24,25 @@
 
 %%
 
-start          :  STMNT_LIST {printf("Valid Syntax\n"); return 0;}
+start          :  STMNT_LIST { printf("Valid Syntax\n"); return 0; }
 
-FOR_STMNT      :  FOR  '(' STMNT STMNT EXPR_LIST ')' STMNT
-               |  FOR  '(' STMNT STMNT ')' STMNT
+FOR_STMNT      :  FOR '(' FOR_INIT_STMNT CONDITION ';' EXPR_LIST ')' STMNT
+               |  FOR '(' FOR_INIT_STMNT CONDITION ';' ')' STMNT
+               |  FOR '(' FOR_RANGE_DECL ':' EXPR ')' STMNT
+               ;
+
+FOR_INIT_STMNT :  EXPR_STMNT
+               |  DECL
+               ;
+
+FOR_RANGE_DECL :  DATATYPE ID
                ;
 
 STMNT_LIST     :  STMNT_LIST STMNT
                |  STMNT
                ;
 
-STMNT          :  DECL ';'
+STMNT          :  DECL
                |  FOR_STMNT
                |  EXPR_STMNT
                |  COMPOUND_STMNT
@@ -55,8 +63,13 @@ JUMP_STMNT     :  BREAK ';'
                |  RETURN EXPR ';'
                ;
 
-ASSIGN         :  ID '=' EXPR
+ASSIGN_STMNT   :  ID '=' EXPR
                |  ID COMPOUND_OP EXPR
+               ;
+
+CONDITION      :  EXPR
+               |  ID '=' ASSIGN_STMNT
+               |
                ;
 
 EXPR           :  EXPR '+' EXPR
@@ -90,19 +103,23 @@ EXPR           :  EXPR '+' EXPR
 
 EXPR_LIST      :  EXPR_LIST ',' EXPR
                |  EXPR
-               |  EXPR_LIST ',' ASSIGN
-               |  ASSIGN
+               |  EXPR_LIST ',' ASSIGN_STMNT
+               |  ASSIGN_STMNT
                ;
 
-INIT           :  ID '=' EXPR
+INITIALIZER    :  '=' EXPR
+               |  '(' EXPR_LIST ')'
+               ;
+
+INIT_DECL      :  ID INITIALIZER
                |  ID
                ;
 
-VAR_LIST       :  VAR_LIST ',' INIT
-               |  INIT
+INIT_DECL_LIST :  INIT_DECL_LIST ',' INIT_DECL
+               |  INIT_DECL
                ;
 
-DECL           :  DATATYPE VAR_LIST
+DECL           :  DATATYPE INIT_DECL_LIST ';'
                ;
 
 %%
