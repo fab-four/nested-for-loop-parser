@@ -4,6 +4,20 @@
     extern FILE *yyin;
     int yyerror();
     int yylex();
+
+    /*
+        Line 24 declares all the tokens that are used in the grammar
+        Lines 25-36 specify the associative and precedence rules for the operators (specified according to the C++ standard)
+        The rules are declared according to the precedence level of operators. For example, "*" has higher precendence than "+".
+        Similarly, "||" (OR) has higher precedence than compound operators (COMPOUND_OP).
+        
+        The section between the first and second %% (lines 39-139) defines the rules necessary to parse the C++ statements,
+        specifically the "for" iteration statement (both, range-based and otherwise), according to the C++ syntax.
+        Not all syntactic elements and variations are covered, of course, with notable exceptions including attribute- and 
+        declaration-specifiers. 
+
+    */
+
 %}
 
 
@@ -135,8 +149,11 @@ int main(int argc,char **argv) {
         printf("File name not given as command line argument\n");
         return 1;
     }
-    printf("File found: %s\n", argv[argc - 1]);
     yyin = fopen(argv[argc - 1], "r");
+    if (!yyin) {
+        printf("Could not open %s\n", argv[argc - 1]);
+        return 1;
+    }
     yyparse();
     return 0;
 }
