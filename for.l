@@ -11,12 +11,12 @@
 
                 For "auto", "void", "bool", "int", "short", "long", "char", "float", "double" and "string", the lexer returns the token DATATYPE.
                 For "for", "continue", "break", "return", "true" and "false", the lexer returns FOR, CONTINUE, BREAK, RETURN, TRUE and FALSE respectively.
-                For a valid identifer name in C++, ID is returned.
+                For a valid identifier name in C++, ID is returned.
                 For string, integer, float and double literals, INT, STRING and FLOAT is returned respectively.
                 For relational operators, ">", "<", "<=", etc., RELATIONAL_OP is returned.
                 For compound operators, "+=", "-=", "/=", "*=", etc. COMPOUND_OP is returned.
                 For operators, "||", "&&", "<<", ">>", "++" and "--", tokens OR, AND, LEFT_SHIFT, RIGHT_SHIFT, PLUS_PLUS and MINUS_MINUS, are returned respectively.
-                If the operand of a post- or pre-increment and decrement operator is an interger literal,
+                If the operand of a post- or pre-increment and decrement operator is an integer literal,
                 yyerror() is called to print the error message and terminate.
                 Every other character is passed as is to the parser.
 

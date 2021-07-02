@@ -8,13 +8,13 @@
     /*
         Line 24 declares all the tokens that are used in the grammar
         Lines 25-36 specify the associative and precedence rules for the operators (specified according to the C++ standard)
-        The rules are declared according to the precedence level of operators. For example, "*" has higher precendence than "+".
+        The rules are declared according to the precedence level of operators. For example, "*" has higher precedence than "+".
         Similarly, "||" (OR) has higher precedence than compound operators (COMPOUND_OP).
-        
+
         The section between the first and second %% (lines 39-139) defines the rules necessary to parse the C++ statements,
         specifically the "for" iteration statement (both, range-based and otherwise), according to the C++ syntax.
-        Not all syntactic elements and variations are covered, of course, with notable exceptions including attribute- and 
-        declaration-specifiers. 
+        Not all syntactic elements and variations are covered, of course, with notable exceptions including attribute- and
+        declaration-specifiers.
 
     */
 
